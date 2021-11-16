@@ -11,7 +11,7 @@ import java.net.UnknownHostException;
 
 import javax.swing.JOptionPane;
 
-public class Server {
+public class ChatAppServer {
 	private int port;
 
 	private ServerSocket server;
@@ -20,7 +20,7 @@ public class Server {
 	ObjectOutputStream os;
 	ObjectInputStream is;
 
-	public Server(int port) {
+	public ChatAppServer(int port) {
 		this.port = port;
 	}
 
@@ -71,10 +71,5 @@ public class Server {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
-
-	public void sendMessage() {
-		// TODO Auto-generated method stub
-		
 	}
 }

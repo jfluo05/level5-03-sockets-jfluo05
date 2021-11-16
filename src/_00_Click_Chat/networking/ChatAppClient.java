@@ -8,7 +8,7 @@ import java.net.UnknownHostException;
 
 import javax.swing.JOptionPane;
 
-public class Client {
+public class ChatAppClient {
 	private String ip;
 	private int port;
 
@@ -17,7 +17,7 @@ public class Client {
 	ObjectOutputStream os;
 	ObjectInputStream is;
 
-	public Client(String ip, int port) {
+	public ChatAppClient(String ip, int port) {
 		this.ip = ip;
 		this.port = port;
 	}
@@ -58,10 +58,5 @@ public class Client {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
-
-	public void sendMessage() {
-		// TODO Auto-generated method stub
-		
 	}
 }
