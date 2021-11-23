@@ -12,6 +12,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import _00_Click_Chat.networking.Client;
@@ -25,51 +26,64 @@ public class ChatApp extends JFrame{
 	 JPanel panel= new JPanel();
 	 JLabel label1= new JLabel();
 	 JLabel label2= new JLabel();
-	 JTextField tf1= new JTextField();
-	 JTextField tf2= new JTextField();
+	 JTextField tf1= new JTextField(40);
+	 JTextField tf2= new JTextField(40);
+	 JTextArea jta1= new JTextArea(3,35);
+	 JTextArea jta2= new JTextArea(3,35);
 	 JButton button= new JButton("SEND");
-	 Server server;
-	 Client client;
+	 ChatAppServer server;
+	 ChatAppClient client;
 	 static String message="";
 	 static String currentText="";
 
 	
 public static void main(String[] args) {
 	new ChatApp();
+	
 }
 ChatApp () {
 	int response= JOptionPane.showConfirmDialog(null, "Would you like to host a connection?", "Buttons!", JOptionPane.YES_NO_OPTION);
 
 	if(response == JOptionPane.YES_OPTION) {
-		server= new Server(8080);
+		server= new ChatAppServer(8080);
 		JOptionPane.showMessageDialog(null, "Server started at: "+server.getIPAddress()+"\nPort: "+ server.getPort());
 		panel.add(tf1);
+		panel.add(jta1);
 		panel.add(button);
 		add(panel);
 		button.addActionListener((e)->{
 			currentText=tf1.getText();
-			message=" Server: "+currentText;
+			//message=" Server: "+currentText;
+			server.sendClick(tf1.getText());
 			tf1.setText("");
-			server.sendMessage();
+
 			});
 		setVisible(true);
 		setSize(400,600);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		server.start();
+		setTitle("Server");
+		server.start(this);
+
 	}else {
+		setVisible(true);
+		setSize(400,600);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Client");
-		String ipStr= JOptionPane.showInputDialog("Enter the IP Address");
-		String prtStr= JOptionPane.showInputDialog("Enter the port number");
+		String ipStr= "127.0.0.1";//JOptionPane.showInputDialog("Enter the IP Address");
+		String prtStr= "8080";//JOptionPane.showInputDialog("Enter the port number");
 		int port= Integer.parseInt(prtStr);
-		client=new Client(ipStr, port);
+		client=new ChatAppClient(ipStr, port);
+
 		panel.add(tf2);
+		panel.add(jta2);
 		panel.add(button);
 		add(panel);
 		button.addActionListener((e)->{
+			client.sendClick(tf2.getText());
 			tf2.setText("");
-			client.sendMessage();
 			System.out.println();
 		});
+		client.start(this);
 	}
 	
 	

@@ -1,4 +1,4 @@
-package _00_Click_Chat.networking;
+package _02_Chat_Application;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -16,13 +16,16 @@ public class ChatAppClient {
 
 	ObjectOutputStream os;
 	ObjectInputStream is;
+	 ChatApp capp;
 
 	public ChatAppClient(String ip, int port) {
 		this.ip = ip;
 		this.port = port;
 	}
 
-	public void start(){
+	public void start(ChatApp capp){
+		this.capp=capp;
+
 		try {
 
 			connection = new Socket(ip, port);
@@ -40,8 +43,9 @@ public class ChatAppClient {
 		
 		while (connection.isConnected()) {
 			try {
-				JOptionPane.showMessageDialog(null, is.readObject());
+			//	JOptionPane.showMessageDialog(null, is.readObject());
 				System.out.println(is.readObject());
+				
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -49,11 +53,13 @@ public class ChatAppClient {
 		}
 	}
 	
-	public void sendClick() {
+	public void sendClick(String text) {
 		try {
 			if (os != null) {
-				os.writeObject("CLICK SENT FROM CLIENT");
+				//System.out.println("SEND CLICK METHOD");
+				os.writeObject(text);
 				os.flush();
+				this.capp.jta2.setText(" Client: "+ text);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

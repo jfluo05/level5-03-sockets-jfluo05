@@ -1,4 +1,4 @@
-package _00_Click_Chat.networking;
+package _02_Chat_Application;
 
 import java.io.EOFException;
 import java.io.IOException;
@@ -12,6 +12,7 @@ import java.net.UnknownHostException;
 import javax.swing.JOptionPane;
 
 public class ChatAppServer {
+	ChatApp capp;
 	private int port;
 
 	private ServerSocket server;
@@ -24,7 +25,8 @@ public class ChatAppServer {
 		this.port = port;
 	}
 
-	public void start(){
+	public void start(ChatApp capp){
+	this.capp=capp;
 		try {
 			server = new ServerSocket(port, 100);
 
@@ -37,7 +39,7 @@ public class ChatAppServer {
 
 			while (connection.isConnected()) {
 				try {
-					JOptionPane.showMessageDialog(null, is.readObject());
+					//JOptionPane.showMessageDialog(null, is.readObject());
 					System.out.println(is.readObject());
 				}catch(EOFException e) {
 					JOptionPane.showMessageDialog(null, "Connection Lost");
@@ -62,11 +64,13 @@ public class ChatAppServer {
 		return port;
 	}
 
-	public void sendClick() {
+	public void sendClick(String text2) {
 		try {
 			if (os != null) {
-				os.writeObject("CLICK SENT FROM SERVER");
+				os.writeObject(text2);
 				os.flush();
+				this.capp.jta1.setText(" Server: "+ text2);
+
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
