@@ -28,6 +28,7 @@ public class ChatApp extends JFrame{
 	 JLabel label2= new JLabel();
 	 JTextField tf1= new JTextField(40);
 	 JTextField tf2= new JTextField(40);
+	 String finalMessage= "";
 	 JTextArea jta1= new JTextArea(3,35);
 	 JTextArea jta2= new JTextArea(3,35);
 	 JButton button= new JButton("SEND");
@@ -59,17 +60,17 @@ ChatApp () {
 
 			});
 		setVisible(true);
-		setSize(400,600);
+		setSize(600,400);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Server");
 		server.start(this);
 
 	}else {
 		setVisible(true);
-		setSize(400,600);
+		setSize(600,400);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Client");
-		String ipStr= "127.0.0.1";//JOptionPane.showInputDialog("Enter the IP Address");
+		String ipStr= "54.176.69.157";//JOptionPane.showInputDialog("Enter the IP Address");
 		String prtStr= "8080";//JOptionPane.showInputDialog("Enter the port number");
 		int port= Integer.parseInt(prtStr);
 		client=new ChatAppClient(ipStr, port);
@@ -79,9 +80,9 @@ ChatApp () {
 		panel.add(button);
 		add(panel);
 		button.addActionListener((e)->{
-			client.sendClick(tf2.getText());
+			finalMessage=jta2.getText()+tf2.getText();//ADDED
+			client.sendClick(finalMessage);
 			tf2.setText("");
-			System.out.println();
 		});
 		client.start(this);
 	}

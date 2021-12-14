@@ -44,8 +44,10 @@ public class ChatAppClient {
 		while (connection.isConnected()) {
 			try {
 			//	JOptionPane.showMessageDialog(null, is.readObject());
-				System.out.println(is.readObject());
-				
+				String robj= (String) is.readObject();
+				System.out.println(robj);
+				capp.finalMessage= this.capp.jta2.getText()+"\n"+robj;
+				this.capp.jta2.setText(capp.finalMessage);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -59,7 +61,9 @@ public class ChatAppClient {
 				//System.out.println("SEND CLICK METHOD");
 				os.writeObject(text);
 				os.flush();
-				this.capp.jta2.setText(" Client: "+ text);
+				this.capp.jta2.setText(text);
+			//	this.capp.jta1.setText(" Client: "+ text);
+
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

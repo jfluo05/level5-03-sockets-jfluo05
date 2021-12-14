@@ -39,8 +39,11 @@ public class ChatAppServer {
 
 			while (connection.isConnected()) {
 				try {
+					String robj= (String) is.readObject();
+					System.out.println(robj);
+					capp.finalMessage= this.capp.jta1.getText()+"\n"+robj;
+					this.capp.jta1.setText(capp.finalMessage);
 					//JOptionPane.showMessageDialog(null, is.readObject());
-					System.out.println(is.readObject());
 				}catch(EOFException e) {
 					JOptionPane.showMessageDialog(null, "Connection Lost");
 					System.exit(0);
@@ -69,7 +72,8 @@ public class ChatAppServer {
 			if (os != null) {
 				os.writeObject(text2);
 				os.flush();
-				this.capp.jta1.setText(" Server: "+ text2);
+				this.capp.jta1.setText(text2);
+			//	this.capp.jta2.setText(" Server: "+ text2);
 
 			}
 		} catch (IOException e) {
